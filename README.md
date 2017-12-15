@@ -9,7 +9,7 @@ A pass extension that apply some file functions
 pass file 1.0 - A pass extension that apply to add a file to passwordstore
 
 Usage:
-        pass file [-a <file> <pass item>] [-g <pass-name>] [-V] [-h]
+        pass file [a <file> <pass item>] [g <pass-name>] [-V] [-h]
             Provide a command to add files to passwordstore and
             get files back from passwordstore to the current location.
 

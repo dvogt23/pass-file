@@ -30,7 +30,7 @@ cmd_file_usage() {
 	echo
 	cat <<-_EOF
 	Usage:
-        $PROGRAM $COMMAND [-a <file> <pass item>] [-g <pass-name>] [-V] [-h]
+        $PROGRAM $COMMAND [a <file> <pass item>] [g <pass-name>] [-V] [-h]
             Provide a command to add files to passwordstore and
             get files back from passwordstore to the current location.
 
@@ -53,7 +53,7 @@ _insert() {
 	# echo "Path: $path"
 	# echo "Filename: $FILENAME"
 	# echo "Passfile: $passfile"
-	mapfile < $FILENAME
+	mapfile < "$FILENAME"
 
 	set_git "$passfile"
 	mkdir -p -v "$PREFIX/$path"
@@ -72,11 +72,10 @@ cmd_file_add() {
 	local path="${2%/}"
 	local passfile="$PREFIX/$path.gpg"
 	local FILENAME="$1"
-	local PASSPATH="$2"
 
 	printf "\e[1m\e[37mAdd file $FILENAME to \e[4m%s\e[0m\n" "$path"
 
-	_insert $path $FILENAME
+	_insert "$path" "$FILENAME"
 
 	exit 0;
 }
@@ -89,8 +88,8 @@ cmd_file_get() {
 
 	local path="$1"
 	local passfile="$PREFIX/$path.gpg"
-	local filename="$(basename $path)"
-	[[ -f $passfile ]] && { $GPG -d "${GPG_OPTS[@]}" "$passfile" > $filename || exit $?; }
+	local filename="$(basename "$path")"
+	[[ -f $passfile ]] && { $GPG -d "${GPG_OPTS[@]}" "$passfile" > "$filename" || exit $?; }
 	exit 0;
 }
 
@@ -100,9 +99,5 @@ while true; do case $1 in
 	g|get) shift; cmd_file_get "$@" ;;
 	-h|--help) shift; cmd_file_usage; exit 0 ;;
 	-v|--version) shift; cmd_file_version; exit 0 ;;
-	--) shift; break ;;
+	*) shift; cmd_file_usage; exit 0 ;;
 esac done
-
-# General Start
-[[ $err -ne 0 ]] && cmd_file_usage && exit 1
-cmd_file "$@"
