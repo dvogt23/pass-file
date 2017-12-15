@@ -1,0 +1,58 @@
+.TH pass-file 1 "December 2017" "pass-file"
+
+.SH NAME
+pass file - A \fBpass\fP(1) extension that apply to add a file to passwordstore.
+
+.SH SYNOPSIS
+\fBpass file\fP [ \fICOMMAND\fP ] <\fIFILENAME\fP> \fIpass-name\fP
+
+.SH DESCRIPTION
+\fBpass file\fP extends the pass with a file command thats provide a command to add files to passwordstore and get files back from passwordstore to the current location.
+
+.SH COMMAND
+.TP
+\fBadd\fP <\fIfilename\fP> \fIpass-name\fP
+Add file to password-store at given pass-name
+
+.TP
+\fBget\fB \fIpass-name\fP
+Get file from password-store to current location
+
+.SH EXAMPLES
+.TP
+Save private.pfx file
+.B zx2c4@laptop ~ $ pass file add private.pfx Site/username
+
+.TP
+Get file to current location
+.B zx2c4@laptop ~ $ pass file get Site/username/private.pfx
+
+.SH SEE ALSO
+.BR pass(1),
+.BR pass-update(1),
+.BR pass-tomb(1),
+.BR pass-import(1),
+.BR pass-otp(1)
+
+
+.SH AUTHORS
+.B pass file
+was written by
+.MT divogt@dima23.de
+Dimitrij Vogt
+.ME .
+
+
+.SH COPYING
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
