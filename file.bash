@@ -14,8 +14,6 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#	gpg -o .passwordstore/test/test.txt.gpg -e -r divogt@live.de test.txt
-#	gpg --output foo.txt --decrypt foo.txt.gpg
 
 readonly VERSION="1.0"
 
@@ -50,15 +48,10 @@ cmd_file_usage() {
 _insert() {
 	local path="${1%/}" FILENAME="$2" passfile="$PREFIX/$path/$FILENAME.gpg"
 
-	# echo "Path: $path"
-	# echo "Filename: $FILENAME"
-	# echo "Passfile: $passfile"
-	mapfile < "$FILENAME"
-
 	set_git "$passfile"
 	mkdir -p -v "$PREFIX/$path"
 	set_gpg_recipients "$path/$FILENAME"
-	$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" <<<"${MAPFILE[@]}" || \
+	$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" $FILENAME || \
 	 	die "Error: File could not be stored."
 	git_add_file "$passfile" "Insert file $path to store."
 }
@@ -66,7 +59,7 @@ _insert() {
 cmd_file_add() {
 	# Sanity checks
 	[[ -z "${*}" ]] && die "Usage: $PROGRAM $COMMAND [-a <file> <pass item>] [-g <pass-name>] [-V] [-h]"
-	[[ ! -f $1 ]] && die "Error: File $1 must be exist."
+	[[ ! -f $1 ]] && die "Error: File $1 must exist."
 	[[ -z "$2" ]] && die "Usage: $PROGRAM $COMMAND [-a <file> <pass item>] [-g <pass-name>] [-V] [-h]"
 
 	local path="${2%/}"
