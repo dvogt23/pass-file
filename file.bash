@@ -46,12 +46,15 @@ cmd_file_usage() {
 # $1: Path in the password store
 # $2: Filename
 _insert() {
-	local path="${1%/}" FILENAME="$2" passfile="$PREFIX/$path/$FILENAME.gpg"
-
+	local path="${1%/}" 
+	local FILE="$2"
+	local FILENAME=$(basename "$2")
+	local passfile="$PREFIX/$path/$FILENAME.gpg"
+	
 	set_git "$passfile"
 	mkdir -p -v "$PREFIX/$path"
-	set_gpg_recipients "$path/$FILENAME"
-	$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" $FILENAME || \
+	set_gpg_recipients "$path/$FILE"
+	$GPG -e "${GPG_RECIPIENT_ARGS[@]}" -o "$passfile" "${GPG_OPTS[@]}" "$FILE" || \
 	 	die "Error: File could not be stored."
 	git_add_file "$passfile" "Insert file $path to store."
 }
@@ -63,7 +66,6 @@ cmd_file_add() {
 	[[ -z "$2" ]] && die "Usage: $PROGRAM $COMMAND [-a <file> <pass item>] [-g <pass-name>] [-V] [-h]"
 
 	local path="${2%/}"
-	local passfile="$PREFIX/$path.gpg"
 	local FILENAME="$1"
 
 	printf "\e[1m\e[37mAdd file $FILENAME to \e[4m%s\e[0m\n" "$path"
