@@ -23,17 +23,42 @@ Usage:
 ```
 
 ## Installation
-If you do not want to install this extension as system extension, you need to enable user extension with PASSWORD_STORE_ENABLE_EXTENSIONS=true pass. You can create an alias in .bashrc: alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'
+**From git**
+```sh
+git clone https://github.com/dvogt23/pass-file/
+cd pass-file
+sudo make install
+```
+
+**OS X**
+```sh
+git clone https://github.com/dvogt23/pass-file/
+cd pass-file
+make install PREFIX=/usr/local
+```
 
 **Requirements**
-* pass 1.7.0 or greater.
+* `pass 1.7.0` or greater.
+* If you do not want to install this extension as system extension, you need to enable user extension with `PASSWORD_STORE_ENABLE_EXTENSIONS=true pass`. You can create an alias in `.bashrc`: `alias pass='PASSWORD_STORE_ENABLE_EXTENSIONS=true pass'`
+
+## Examples
+
+**Save private.pfx file**
+```
+zx2c4@laptop ~ $ pass file add private.pfx Site/username
+```
+
+**Get file to current location**
+```
+zx2c4@laptop ~ $ pass file get Site/username/private.pfx
+```
 
 ## Contribution
 Feedback, contributors, pull requests are welcome.
 
 ## License
 ```
-    Copyright (C) 2017  Alexandre PUJOL
+    Copyright (C) 2017
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
