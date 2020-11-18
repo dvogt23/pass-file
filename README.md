@@ -23,6 +23,19 @@ Usage:
 ```
 
 ## Installation
+
+**From the AUR (Arch Linux)**
+
+Using an AUR helper like yay
+
+```sh
+yay -S pass-file
+# or
+yay -S pass-file-git
+```
+Or following the instructions on the
+[Arch Wiki](https://wiki.archlinux.org/index.php/Arch_User_Repository)
+
 **From git**
 ```sh
 git clone https://github.com/dvogt23/pass-file/
