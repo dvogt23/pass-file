@@ -36,6 +36,13 @@ yay -S pass-file-git
 Or following the instructions on the
 [Arch Wiki](https://wiki.archlinux.org/index.php/Arch_User_Repository)
 
+**Nix**
+You can use the following expression to install `pass` with the `pass-file` extension
+```nix
+pass.withExtensions(exts: with exts; [ pass-file ])
+```
+You can try pass-file with `nix-shell`, install it into your system with `nix-env` or you can add it into your `configuration.nix` and then do `nixos-rebuild switch`.
+
 **From git**
 ```sh
 git clone https://github.com/dvogt23/pass-file/
