@@ -1,3 +1,4 @@
+#shellcheck disable=SC2207,SC2086,SC2155,SC2154
 PASSWORD_STORE_EXTENSION_COMMANDS+=(file)
 
 __password_store_extension_complete_file() {
@@ -5,11 +6,21 @@ __password_store_extension_complete_file() {
 	local flags=(-h --help -v --version)
 	if [[ "${COMP_CWORD}" -gt 2 ]]; then
 		case "${COMP_WORDS[2]}" in
-		add | get) _pass_complete_entries ;;
+		get) _pass_complete_entries 1 ;;
+		add)
+			if [[ "${COMP_CWORD}" -gt 3 ]]; then
+				_pass_complete_entries 1
+			else
+				local -a files
+				mapfile -t files <<<"$(compgen -f $PWD/${cur})"
+				if [[ -e "${files[0]}" ]]; then
+					COMPREPLY+=("${files[@]#"$PWD/"}")
+				fi
+			fi
+			;;
 		esac
 	else
-		#shellcheck disable=SC2207,SC2086
 		COMPREPLY+=($(compgen -W "${commands[*]} ${flags[*]}" -- ${cur}))
-		_pass_complete_entries
+		_pass_complete_entries 1
 	fi
 }
