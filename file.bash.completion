@@ -1,0 +1,15 @@
+PASSWORD_STORE_EXTENSION_COMMANDS+=(file)
+
+__password_store_extension_complete_file() {
+	local commands=(add get)
+	local flags=(-h --help -v --version)
+	if [[ "${COMP_CWORD}" -gt 2 ]]; then
+		case "${COMP_WORDS[2]}" in
+		add | get) _pass_complete_entries ;;
+		esac
+	else
+		#shellcheck disable=SC2207,SC2086
+		COMPREPLY+=($(compgen -W "${commands[*]} ${flags[*]}" -- ${cur}))
+		_pass_complete_entries
+	fi
+}
